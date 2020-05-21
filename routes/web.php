@@ -12,5 +12,11 @@
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('login');
 });
+
+Route::get('/menu','FuncionesController@menu')->name('menu');
+
+Route::post('/prueba','FuncionesController@validacionLogin')->name('loginValidacion');
+
+//Route::get('/register')->name('login');
