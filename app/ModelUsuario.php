@@ -8,5 +8,4 @@ class ModelUsuario extends Model
 {
     protected $table="usuariossistema";
     protected $primaryKey="id_usuario";
-
 }

@@ -39,13 +39,15 @@
                   <div class="text-center">
                     <h1 class="h4 text-gray-900 mb-4">BIENVENIDO</h1>
                   </div>
-                  <form class="user" method="POST" action="/prueba">
-                    @csrf
+                  <form class="user" method="POST" action="/loginCRUD">
+                    
                     <div class="form-group">
-                      <input type="email" class="form-control form-control-user" id="usuario" name="usuarioN" aria-describedby="emailHelp" placeholder="Usuario...">
+                      <input type="text" class="form-control form-control-user" id="usuario" name="NombreInput" aria-describedby="emailHelp" placeholder="Usuario...">
+                      {{csrf_field()}}
                     </div>
                     <div class="form-group">
-                      <input type="password" class="form-control form-control-user" id="contrasena" name="contraN" placeholder="Contraseña">
+                      <input type="password" class="form-control form-control-user" id="contrasena" name="ContraInput" placeholder="Contraseña">
+                      
                     </div>
                     <div class="form-group">
                       <div class="custom-control custom-checkbox small">
@@ -53,9 +55,9 @@
                         <label class="custom-control-label" for="customCheck">Recuerdame</label>
                       </div>
                     </div>
-                    <a href="{{route('loginValidacion')}}" type="submit" class="btn btn-primary btn-user btn-block">
-                      Iniciar Sesión
-                    </a>
+                    <input type="submit" class="btn btn-primary btn-user btn-block" value="Iniciar Sesión">
+                      
+                  
                     <hr>
                     <a href="index.html" class="btn btn-google btn-user btn-block">
                       <i class="fab fa-google fa-fw"></i> Iniciar Sesión con Google
@@ -83,7 +85,7 @@
 
   </div>
 
-  <!-- Bootstrap core JavaScript-->
+  <!-- Bootstrap core JavaScript -->
   <script src="vendor/jquery/jquery.min.js"></script>
   <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
