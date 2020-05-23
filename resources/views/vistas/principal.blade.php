@@ -61,8 +61,7 @@
 
       <!-- Nav Item - Pages Collapse Menu -->
       <?php
-      $i = 1;
-      if($i == 1){
+  if($_SESSION['typeUser'] == "Gerente" || $_SESSION['typeUser'] == "Asesor" || $_SESSION['typeUser'] == "Admin"){
           ?>
           <li class="nav-item">
             <a class="nav-link collapsed" href="{{route("sucursal")}}">
@@ -70,9 +69,6 @@
               <span>Sucursales</span>
             </a>
           </li>
-          <?php
-      }
-      ?>
 
       <!-- Nav Item - Utilities Collapse Menu -->
       <li class="nav-item">
@@ -112,7 +108,9 @@
       <div class="sidebar-heading">
         Financiero
       </div>
-
+<?php
+  }
+?>
       <!-- Nav Item - Tables -->
       <li class="nav-item">
         <a class="nav-link" href="{{route("abonos")}}">
@@ -120,17 +118,27 @@
           <span>Abonos</span></a>
       </li>
 
+  <?php
+  if($_SESSION['typeUser'] == "Gerente" || $_SESSION['typeUser'] == "Asesor" || $_SESSION['typeUser'] == "Admin"){
+  ?>
       <!-- Nav Item - Tables -->
       <li class="nav-item">
         <a class="nav-link" href="{{route("cotizacion")}}">
           <i class="fas fa-fw fa-table"></i>
           <span>Cotización</span></a>
       </li>
+  <?php
+  }
+  ?>
 
       <!-- Divider -->
       <hr class="sidebar-divider">
 
       <!-- Heading -->
+
+<?php
+if($_SESSION['typeUser'] == "Gerente" || $_SESSION['typeUser'] == "Admin"){
+?>
       <div class="sidebar-heading">
         Seguridad
       </div>
@@ -145,6 +153,9 @@
       <!-- Divider -->
       <hr class="sidebar-divider">
       
+  <?php
+  }
+  ?>
       <li class="nav-item">
         <center>
           <button href="{{route("cerrarsesion")}}" class="btn btn-danger">Cerrar Sesión</button>

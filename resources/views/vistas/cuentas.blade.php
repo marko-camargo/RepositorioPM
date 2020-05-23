@@ -1,6 +1,7 @@
 <?php
   use App\ModelUsuario;
   use App\ModelSucursal;
+  use App\ModelCuenta;
   session_start();
 ?>
 
@@ -15,7 +16,7 @@
   <meta name="description" content="">
   <meta name="author" content="">
 
-  <title>SUCURSALES</title>
+  <title>CUENTAS</title>
 
   <!-- Custom fonts for this template-->
   <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -26,7 +27,7 @@
 
   <style>
     th{
-      width: 200px
+      width: 150px
     }
   </style>
 
@@ -71,7 +72,7 @@
       $i = 1;
       if($i == 1){
           ?>
-          <li class="nav-item active">
+          <li class="nav-item">
             <a class="nav-link collapsed" href="{{route("sucursal")}}">
               <i class="fas fa-fw fa-cog"></i>
               <span>Sucursales</span>
@@ -106,7 +107,7 @@
       </li>
 
       <!-- Nav Item - Charts -->
-      <li class="nav-item">
+      <li class="nav-item active">
         <a class="nav-link" href="{{route("cuentas")}}">
           <i class="fas fa-fw fa-chart-area"></i>
           <span>Cuentas</span></a>
@@ -138,8 +139,8 @@
       <hr class="sidebar-divider">
 
       <?php
-  if($_SESSION['typeUser'] == "Gerente" || $_SESSION['typeUser'] == "Admin"){
-      ?>
+if($_SESSION['typeUser'] == "Gerente" || $_SESSION['typeUser'] == "Admin"){
+?>
       <div class="sidebar-heading">
         Seguridad
       </div>
@@ -157,7 +158,6 @@
   <?php
   }
   ?>
-      
       <li class="nav-item">
         <center>
           <button href="{{route("cerrarsesion")}}" class="btn btn-danger">Cerrar Sesión</button>
@@ -184,7 +184,7 @@
           </button>
 
           <!-- Topbar Navbar -->
-          <h1 class="h3 mb-4 text-gray-800">SUCURSALES</h1>
+          <h1 class="h3 mb-4 text-gray-800">CUENTAS DE CLIENTES</h1>
           <ul class="navbar-nav ml-auto">
 
             <div class="topbar-divider d-none d-sm-block"></div>
@@ -209,18 +209,11 @@
         <div class="container-fluid">
 
           <!-- Page Heading -->
-          {{-- <h1 class="h3 mb-4 text-gray-800">SUCURSALES</h1> --}}
           <br>
           <br>
-
-
-          <!-- SELECT A SUCURSALES  CON MODELO-->
-
-
-          
           <?php
             //$datos = ModelUsuario->all();
-            $datos = ModelSucursal::all(); 
+            $datos = ModelCuenta::all(); 
           ?>
           
           <center>
@@ -228,7 +221,7 @@
               <table>
                 <tr>
                   <th>
-                    <input style="width:15cm" type="text" class="form-control form-control-user" name="BuscarInput" placeholder="Buscar Sucursal">
+                    <input style="width:15cm" type="text" class="form-control form-control-user" name="BuscarInput" placeholder="Buscar Cuenta">
                   </th>
                   <th>
                     <input type="submit" class="btn btn-primary btn-user" value="Buscar">
@@ -241,37 +234,39 @@
           <table >
             <tr>
               <th colspan="2">
-                <h1 class="h3 mb-4 text-gray-800">Sucursales</h1>
-              </th>
-            <?php
-            if($_SESSION['typeUser'] == "Admin"){
-            ?>
-              <th>
-                <a href="{{route('nuevaSucursal')}}" class="btn btn-primary btn-user" value="">Nueva Sucursal</a>
+                <h1 class="h3 mb-4 text-gray-800">Cuentas</h1>
               </th>
             </tr>
-            <?php
-            }
-            ?>
             <tr>
               <th style="visibility: collapse;width:0px">
                 id
               </th>
               <th>
-                Nombre
+                Nombre Cliente
               </th>
               <th>
-                Direccion
+                Saldo
               </th>
               <th>
-                Codigo Postal
+                Abonos
               </th>
               <th>
-                Ciudad
+                Edo. de Cuenta
               </th>
               <th>
-                Telefono
+                Recargos
               </th>
+              <th>
+                Cant. Préstamo
+              </th>
+              <th>
+                Plazo (meses)
+              </th>
+              <th>
+                Fecha de Solicitud
+              </th>
+              
+
             </tr>
 
             <?php
@@ -281,54 +276,55 @@
                 <tr>
                   <td style="visibility: collapse;width:0px">
                     <?php
-                    echo $dato->id_sucursal;
+                    echo $dato->id_cuenta;
                     ?>
                   </td>
                   <td>
                     <?php
-                    echo $dato->Nombre;
+                    echo $dato->Nombre_cliente;
                     ?>
                   </td>
                   <td>
                     <?php
-                    echo $dato->Direccion;
+                    echo "$".$dato->Saldo;
                     ?>
                   </td>
                   <td>
                     <?php
-                    echo $dato->CP;
+                    echo "$".$dato->Abonos;
                     ?>
                   </td>
                   <td>
                     <?php
-                    echo $dato->Ciudad;
+                    echo $dato->StatusCuenta;
                     ?>
                   </td>
                   <td>
                     <?php
-                    echo $dato->Telefono;
+                    echo "$".$dato->Recargos;
                     ?>
                   </td>
-                  <?php
-                  if($_SESSION['typeUser'] == "Gerente" || $_SESSION['typeUser'] == "Admin"){
-                  ?>
                   <td>
-                    <form method="GET" action="/sucursalCRUD/{{$dato->id_sucursal}}">
-                    <input  type="submit" class="btn btn-primary btn-user" value="Modificar">
+                    <?php
+                    echo "$".$dato->CantPrestamo;
+                    ?>
+                  </td>
+                  <td>
+                    <?php
+                    echo $dato->Plazo_meses;
+                    ?>
+                  </td>
+                  <td>
+                    <?php
+                    echo $dato->FechaSolicitud;
+                    ?>
+                  </td>
+                  
+                  <td>
+                    <form method="GET" action="/cuentaCRUD/{{$dato->id_cuenta}}">
+                    <input  type="submit" class="btn btn-primary btn-user" value="Visualizar">
                     </form>
                   </td>
-                  <?php
-                  }
-                  if($_SESSION['typeUser'] == "Admin"){
-                  ?>
-                  <td>
-                    <form method="GET" action="/sucursalCRUD/{{$dato->id_sucursal}}/edit">
-                    <input  type="submit" class="btn btn-danger" value="Eliminar">
-                    </form>
-                  </td>
-                  <?php
-                  }
-                  ?>
                 </tr>
                 <?php
               }

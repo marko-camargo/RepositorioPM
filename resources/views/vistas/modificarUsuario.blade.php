@@ -1,6 +1,5 @@
 <?php
   use App\ModelUsuario;
-  use App\ModelSucursal;
   session_start();
 ?>
 
@@ -15,7 +14,7 @@
   <meta name="description" content="">
   <meta name="author" content="">
 
-  <title>SUCURSALES</title>
+  <title>MODIFICAR USUARIO</title>
 
   <!-- Custom fonts for this template-->
   <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -23,12 +22,6 @@
 
   <!-- Custom styles for this template-->
   <link href="/PlantillaInicio/css/sb-admin-2.min.css" rel="stylesheet">
-
-  <style>
-    th{
-      width: 200px
-    }
-  </style>
 
 </head>
 
@@ -137,9 +130,7 @@
       <!-- Divider -->
       <hr class="sidebar-divider">
 
-      <?php
-  if($_SESSION['typeUser'] == "Gerente" || $_SESSION['typeUser'] == "Admin"){
-      ?>
+      <!-- Heading -->
       <div class="sidebar-heading">
         Seguridad
       </div>
@@ -153,10 +144,6 @@
 
       <!-- Divider -->
       <hr class="sidebar-divider">
-      
-  <?php
-  }
-  ?>
       
       <li class="nav-item">
         <center>
@@ -184,7 +171,6 @@
           </button>
 
           <!-- Topbar Navbar -->
-          <h1 class="h3 mb-4 text-gray-800">SUCURSALES</h1>
           <ul class="navbar-nav ml-auto">
 
             <div class="topbar-divider d-none d-sm-block"></div>
@@ -193,8 +179,8 @@
 
             <!-- USAR MODELO PARA HACER SELECT DE USUARIOOOOOOOOOO  -->
 
+
             <li class="nav-item dropdown no-arrow">
-              
               <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <span style="font-size:25px" class="mr-2 d-none d-lg-inline text-gray-600">{{$_SESSION['nombre']}}</span>
                 <img class="img-profile rounded-circle" src="/imagenes/user2.png">
@@ -208,134 +194,113 @@
         <!-- Begin Page Content -->
         <div class="container-fluid">
 
-          <!-- Page Heading -->
-          {{-- <h1 class="h3 mb-4 text-gray-800">SUCURSALES</h1> --}}
-          <br>
-          <br>
+          <!-- Page Heading 
+          <h1 class="h3 mb-4 text-gray-800">SUCURSALES</h1> -->
 
+           <!-- CODIGO PARA RECIBIR SUCURSAL A MODIFICAR -->
 
-          <!-- SELECT A SUCURSALES  CON MODELO-->
+          <div class="container">
 
+            <!-- Outer Row -->
+            <div class="row justify-content-center">
+        
+              <div class="col-xl-10 col-lg-12 col-md-9">
+        
+                <div class="card o-hidden border-0 shadow-lg my-5">
+                  <div class="card-body p-0">
+                    <!-- Nested Row within Card Body -->
+                    <div class="row">
+                      <div class="col-lg-6 d-none d-lg-block bg-registroSucursal-image"></div>
+                      <div class="col-lg-6">
+                        <div class="p-5">
+                          <div class="text-center">
+                            <h1 class="h4 text-gray-900 mb-4">MODIFICAR USUARIO</h1>
+                          </div>
+                          <form class="user" method="POST" action="/usuarioCRUD/{{$usuario->id_usuario}}"> 
+                            @csrf
 
-          
-          <?php
-            //$datos = ModelUsuario->all();
-            $datos = ModelSucursal::all(); 
-          ?>
-          
-          <center>
-            <div class="form-group">
-              <table>
-                <tr>
-                  <th>
-                    <input style="width:15cm" type="text" class="form-control form-control-user" name="BuscarInput" placeholder="Buscar Sucursal">
-                  </th>
-                  <th>
-                    <input type="submit" class="btn btn-primary btn-user" value="Buscar">
-                  </th>
-                </tr>
-              </table>
-            {{csrf_field()}}
+                            <input type="hidden" name="_method" value="PUT">
+
+                            <div class="form-group">
+                              <input type="text" class="form-control form-control-user" name="NombreInput" placeholder="Nombre..." value="{{$usuario->Nombre}}">
+                              {{csrf_field()}}
+                            </div>
+
+                            <div class="form-group">
+                              <input type="text" class="form-control form-control-user" name="IdsucursalInput" placeholder="Id Sucursal..." value="{{$usuario->id_sucursal}}">
+                              {{csrf_field()}}
+                            </div>
+
+                            <div class="form-group">
+                              <input type="text" class="form-control form-control-user" name="DomicilioInput" placeholder="Domicilio..." value="{{$usuario->Domicilio}}">
+                              {{csrf_field()}}
+                            </div>
+
+                            <div class="form-group">
+                              <input type="text" class="form-control form-control-user" name="TelefonoInput" placeholder="Telefono/Celular..." value="{{$usuario->Telefono}}">
+                              {{csrf_field()}}
+                            </div>
+
+                            <div class="form-group">
+                              <select name = "PuestoInput" class="browser-default custom-select">
+                                <?php
+                                if($usuario->Puesto == "Gerente"){
+                                    ?>
+                                    <option value="Gerente" selected>Gerente</option>
+                                    <option value="Asesor">Asesor</option>
+                                    <option value="Cajero">Cajero</option>
+                                    <?php
+                                  }
+                                  if($usuario->Puesto == "Asesor"){
+                                    ?>
+                                    <option value="Gerente">Gerente</option>
+                                    <option value="Asesor" selected>Asesor</option>
+                                    <option value="Cajero">Cajero</option>
+                                    <?php
+                                  }
+                                  if($usuario->Puesto == "Cajero"){
+                                    ?>
+                                    <option value="Gerente">Gerente</option>
+                                    <option value="Asesor">Asesor</option>
+                                    <option value="Cajero" selected>Cajero</option>
+                                    <?php
+                                  }
+                                ?>
+                                
+                              </select>
+
+                              
+                            </div>
+
+                            <div class="form-group">
+                              <input type="text" class="form-control form-control-user" name="UsernameInput" placeholder="Nombre de usuario..." value="{{$usuario->Username}}">
+                              {{csrf_field()}}
+                            </div>
+
+                            <div class="form-group">
+                              <input type="password" class="form-control form-control-user" name="PasswordInput" placeholder="Contraseña..." value="{{$usuario->Password}}">
+                              {{csrf_field()}}
+                            </div>
+                            
+                            <input type="submit" class="btn btn-primary btn-user btn-block" value="Guardar Cambios">
+                          
+                            <hr>
+                           </form>
+                          <hr>
+                          
+                
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+        
+              </div>
+        
+            </div>
+        
           </div>
-          <br><br><br>
-          <table >
-            <tr>
-              <th colspan="2">
-                <h1 class="h3 mb-4 text-gray-800">Sucursales</h1>
-              </th>
-            <?php
-            if($_SESSION['typeUser'] == "Admin"){
-            ?>
-              <th>
-                <a href="{{route('nuevaSucursal')}}" class="btn btn-primary btn-user" value="">Nueva Sucursal</a>
-              </th>
-            </tr>
-            <?php
-            }
-            ?>
-            <tr>
-              <th style="visibility: collapse;width:0px">
-                id
-              </th>
-              <th>
-                Nombre
-              </th>
-              <th>
-                Direccion
-              </th>
-              <th>
-                Codigo Postal
-              </th>
-              <th>
-                Ciudad
-              </th>
-              <th>
-                Telefono
-              </th>
-            </tr>
 
-            <?php
-              foreach($datos as $dato){
-                if($dato->Status == 1){
-                ?>
-                <tr>
-                  <td style="visibility: collapse;width:0px">
-                    <?php
-                    echo $dato->id_sucursal;
-                    ?>
-                  </td>
-                  <td>
-                    <?php
-                    echo $dato->Nombre;
-                    ?>
-                  </td>
-                  <td>
-                    <?php
-                    echo $dato->Direccion;
-                    ?>
-                  </td>
-                  <td>
-                    <?php
-                    echo $dato->CP;
-                    ?>
-                  </td>
-                  <td>
-                    <?php
-                    echo $dato->Ciudad;
-                    ?>
-                  </td>
-                  <td>
-                    <?php
-                    echo $dato->Telefono;
-                    ?>
-                  </td>
-                  <?php
-                  if($_SESSION['typeUser'] == "Gerente" || $_SESSION['typeUser'] == "Admin"){
-                  ?>
-                  <td>
-                    <form method="GET" action="/sucursalCRUD/{{$dato->id_sucursal}}">
-                    <input  type="submit" class="btn btn-primary btn-user" value="Modificar">
-                    </form>
-                  </td>
-                  <?php
-                  }
-                  if($_SESSION['typeUser'] == "Admin"){
-                  ?>
-                  <td>
-                    <form method="GET" action="/sucursalCRUD/{{$dato->id_sucursal}}/edit">
-                    <input  type="submit" class="btn btn-danger" value="Eliminar">
-                    </form>
-                  </td>
-                  <?php
-                  }
-                  ?>
-                </tr>
-                <?php
-              }
-            }
-            ?>
-          </table>
-        </center>
         </div>
         <!-- /.container-fluid -->
 

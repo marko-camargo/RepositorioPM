@@ -1,5 +1,7 @@
 <?php
   use App\ModelUsuario;
+  use App\ModelCliente;
+  use App\ModelCuenta;
   session_start();
 ?>
 
@@ -14,7 +16,7 @@
   <meta name="description" content="">
   <meta name="author" content="">
 
-  <title>MODIFICAR SUCURSAL</title>
+  <title>MODIFICAR CUENTA</title>
 
   <!-- Custom fonts for this template-->
   <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -64,7 +66,7 @@
       $i = 1;
       if($i == 1){
           ?>
-          <li class="nav-item active">
+          <li class="nav-item">
             <a class="nav-link collapsed" href="{{route("sucursal")}}">
               <i class="fas fa-fw fa-cog"></i>
               <span>Sucursales</span>
@@ -99,7 +101,7 @@
       </li>
 
       <!-- Nav Item - Charts -->
-      <li class="nav-item">
+      <li class="nav-item active">
         <a class="nav-link" href="{{route("cuentas")}}">
           <i class="fas fa-fw fa-chart-area"></i>
           <span>Cuentas</span></a>
@@ -130,7 +132,9 @@
       <!-- Divider -->
       <hr class="sidebar-divider">
 
-      <!-- Heading -->
+      <?php
+if($_SESSION['typeUser'] == "Gerente" || $_SESSION['typeUser'] == "Admin"){
+?>
       <div class="sidebar-heading">
         Seguridad
       </div>
@@ -144,6 +148,10 @@
 
       <!-- Divider -->
       <hr class="sidebar-divider">
+      
+  <?php
+  }
+  ?>
       
       <li class="nav-item">
         <center>
@@ -214,47 +222,119 @@
                       <div class="col-lg-6">
                         <div class="p-5">
                           <div class="text-center">
-                            <h1 class="h4 text-gray-900 mb-4">MODIFICAR SUCURSAL</h1>
+                            <h1 class="h4 text-gray-900 mb-4">CUENTA</h1>
                           </div>
-                          <form class="user" method="POST" action="/sucursalCRUD/{{$sucursal->id_sucursal}}"> 
+                          <form class="user" method="GET" action="/cuentaCRUD/{{$cuenta->id_cuenta}}/edit"> 
                             @csrf
+                            <!-- <input type="hidden" name="_method" value="PUT"> -->
+                            <table>
+                              <?php
+                                $_SESSION['edonombre']=$cuenta->Nombre_cliente;
+                                $_SESSION['edosaldo']=$cuenta->Saldo;
+                                $_SESSION['edoabono']=$cuenta->Abonos;
+                                $_SESSION['edointereses']=$cuenta->Intereses;
+                                $_SESSION['edorecargos']=$cuenta->Recargos;
+                                $_SESSION['edocantidad']=$cuenta->CantPrestamo;
+                                $_SESSION['edomeses']=$cuenta->Plazo_meses;
+                                $_SESSION['edofecha']=$cuenta->FechaSolicitud;
+                                $_SESSION['edocomentarios']=$cuenta->Comentarios;
 
-                            <input type="hidden" name="_method" value="PUT">
+                              ?>
+                        
 
-                            <div class="form-group">
-                              <input type="text" class="form-control form-control-user"  name="NombreInput" placeholder="Nombre..." value="{{$sucursal->Nombre}}">
                               
-                            </div>
 
-                            <div class="form-group">
-                              <input type="text" class="form-control form-control-user"  name="DireccionInput" placeholder="Dirección..." value="{{$sucursal->Direccion}}">
-                              
-                            </div>
+                              <tr>
+                                <td><label>Nombre:</label></td>
+                                <td><div class="form-group">
+                                  <input type="text" class="form-control form-control-user" readonly name="NombreclienteInput" placeholder="Nombre Cliente..." value="{{$cuenta->Nombre_cliente}}">
+                                  {{csrf_field()}}
+                                </div></td>
+                              </tr>
 
-                            <div class="form-group">
-                              <input type="text" class="form-control form-control-user"  name="CPInput" placeholder="Código Postal..." value="{{$sucursal->CP}}">
-                              
-                            </div>
-
-                            <div class="form-group">
-                              <input type="text" class="form-control form-control-user"  name="CiudadInput" placeholder="Ciudad..." value="{{$sucursal->Ciudad}}">
-                              
-                            </div>
-
-                            <div class="form-group">
-                              <input type="text" class="form-control form-control-user"  name="TelefonoInput" placeholder="Telefono/Celular..." value="{{$sucursal->Telefono}}">
-                              
-                            </div>
-
+                            <tr>
+                              <td><label>Saldo:</label></td>
+                              <td><div class="form-group">
+                                <input type="text" class="form-control form-control-user" readonly name="SaldoInput" placeholder="Saldo..." value="$.{{$cuenta->Saldo}}">
+                                {{csrf_field()}}
+                              </div></td>
+                            </tr>
                             
+                            <tr>
+                              <td><label>Abonos:</label></td>
+                              <td><div class="form-group">
+                                <input type="text" class="form-control form-control-user" readonly name="AbonosInput" placeholder="Abonos..." value="$.{{$cuenta->Abonos}}">
+                                {{csrf_field()}}
+                              </div></td>
+                            </tr>
                             
-                            <input type="submit" class="btn btn-primary btn-user btn-block" value="Guardar Cambios">
+                            <tr>
+                              <td><label>Intéres:</label></td>
+                              <td><div class="form-group">
+                              <input type="text" class="form-control form-control-user" readonly name="InteresesInput" placeholder="Intereses..." value="$.{{$cuenta->Intereses}}">
+                              {{csrf_field()}}
+                            </div></td>
+                            </tr>
                             
-                          
-                            <hr>
+                            <tr>
+                              <td><label>Recargos:</label></td>
+                              <td><div class="form-group">
+                              <input type="text" class="form-control form-control-user" readonly name="RecargosInput" placeholder="Recargos..." value="$.{{$cuenta->Recargos}}">
+                              {{csrf_field()}}
+                            </div></td>
+                            </tr>
+
+                            <tr>
+                              <td><label>Cant. Prestámo</label></td>
+                              <td><div class="form-group">
+                              <input type="text" class="form-control form-control-user" readonly name="CantprestamoInput" placeholder="Cantidad Prestamo..." value="$.{{$cuenta->CantPrestamo}}">
+                              {{csrf_field()}}
+                            </div></td>
+                            </tr>
+
+                            <tr>
+                              <td><label>Plazo (meses)</label></td>
+                              <td><div class="form-group">
+                              <input type="text" class="form-control form-control-user" readonly name="PlazomesesInput" placeholder="Plazo (meses)..." value="{{$cuenta->Plazo_meses}}">
+                              {{csrf_field()}}
+                            </div></td>
+                            </tr>
+                            
+                            <tr>
+                              <td><label>Fecha Solicitud</label></td>
+                              <td><div class="form-group">
+                              <input type="date" class="form-control form-control-user" readonly name="FechasolicitudInput" placeholder="Fecha Solicitud..." value="{{$cuenta->FechaSolicitud}}">
+                              {{csrf_field()}}
+                            </div></td>
+                            </tr>
+                            
+                            <tr>
+                              <td><label>Comentarios</label></td>
+                              <td><div class="form-group">
+                              <input type="text" class="form-control form-control-user" readonly name="ComentariosInput" placeholder="Comentarios..." value="{{$cuenta->Comentarios}}">
+                              {{csrf_field()}}
+                            </div></td>
+                            </tr>
+                            
+                            <tr>
+                              <td colspan="2"><input type="submit" class="btn btn-primary btn-user btn-block" value="Realizar Préstamo"></td>
+                            </tr>
                            </form>
-                          <hr>
-                          
+                           <tr><td></td></tr>
+                           <tr><td></td></tr>
+                           <tr><td></td></tr>
+                           <tr><td></td></tr>
+
+                           <tr>
+                             
+                             <td colspan="2"><a href="{{route('mostrarEdocuenta')}}" class="btn btn-primary btn-user btn-block bg-danger">Generar Estado de Cuenta</a></td>
+                            
+                           </tr>
+                          </table>
+                           <br>
+
+
+                           
                 
                         </div>
                       </div>

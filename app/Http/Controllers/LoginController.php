@@ -38,9 +38,15 @@ class LoginController extends Controller
         $datos = new ModelUsuario;
         $datos = ModelUsuario::where("Username","$request->NombreInput")->where("Password","$request->ContraInput")->get();
         
+        $typeUser = "";
+        foreach($datos as $dato){
+            $typeUser = $dato->Puesto;
+        }
+
         if(!$datos->isEmpty()){
             session_start();
             $_SESSION['nombre']=$request->NombreInput;
+            $_SESSION['typeUser']=$typeUser;
             return redirect('principal');
         }else{
             return view("/vistas/login");

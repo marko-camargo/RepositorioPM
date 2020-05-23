@@ -1,11 +1,10 @@
 <?php
 
 namespace App\Http\Controllers;
-
-use App\ModelSucursal;
+use App\ModelUsuario;
 use Illuminate\Http\Request;
 
-class SucursalController extends Controller
+class UsuarioController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,7 +13,7 @@ class SucursalController extends Controller
      */
     public function index()
     {
-        return "ENTRO INDEX";
+        //
     }
 
     /**
@@ -35,16 +34,17 @@ class SucursalController extends Controller
      */
     public function store(Request $request)
     {
-        $sucursal = new ModelSucursal;
-        $sucursal->Nombre=$request->NombreInput;
-        $sucursal->Direccion=$request->DireccionInput;
-        $sucursal->CP=$request->CPInput;
-        $sucursal->Ciudad=$request->CiudadInput;
-        $sucursal->Telefono=$request->TelefonoInput;
-        $sucursal->Status = 1;
-        $sucursal->save();
-
-        return view('/vistas/sucursales');
+        $usuario = new ModelUsuario;
+        $usuario->Nombre=$request->NombreInput;
+        $usuario->id_sucursal=$request->IdsucursalInput;
+        $usuario->Domicilio=$request->DomicilioInput;
+        $usuario->Telefono=$request->TelefonoInput;
+        $usuario->Puesto=$request->PuestoInput;
+        $usuario->Username=$request->UsernameInput;
+        $usuario->Password=$request->PasswordInput;
+        $usuario->Status = 1;
+        $usuario->save();
+        return view('/vistas/usuarios');
     }
 
     /**
@@ -55,8 +55,8 @@ class SucursalController extends Controller
      */
     public function show($id)
     {
-        $sucursal=ModelSucursal::findOrFail($id);
-        return view ("/vistas/modificarSucursal", compact("sucursal"));
+        $usuario=ModelUsuario::findOrFail($id);
+        return view ("/vistas/modificarUsuario", compact("usuario"));
     }
 
     /**
@@ -67,12 +67,10 @@ class SucursalController extends Controller
      */
     public function edit($id)
     {
-        $sucursal = ModelSucursal::findOrFail($id);
-        $sucursal->Status = 0;
-        
-        $sucursal->save();
-
-        return view("/vistas/sucursales"); 
+        $usuario = ModelUsuario::findOrFail($id);
+        $usuario->Status = 0;
+        $usuario->save();
+        return view("/vistas/usuarios"); 
     }
 
     /**
@@ -84,16 +82,16 @@ class SucursalController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $sucursal = ModelSucursal::findOrFail($id);
-        $sucursal->Nombre=$request->NombreInput;
-        $sucursal->Direccion=$request->DireccionInput;
-        $sucursal->CP=$request->CPInput;
-        $sucursal->Ciudad=$request->CiudadInput;
-        $sucursal->Telefono=$request->TelefonoInput;
-        $sucursal->save();
-
-        return view("/vistas/sucursales"); 
-
+        $usuario = ModelUsuario::findOrFail($id);
+        $usuario->Nombre=$request->NombreInput;
+        $usuario->id_sucursal=$request->IdsucursalInput;
+        $usuario->Domicilio=$request->DomicilioInput;
+        $usuario->Telefono=$request->TelefonoInput;
+        $usuario->Puesto=$request->PuestoInput;
+        $usuario->Username=$request->UsernameInput;
+        $usuario->Password=$request->PasswordInput;
+        $usuario->save();
+        return view("/vistas/usuarios"); 
     }
 
     /**
@@ -104,6 +102,6 @@ class SucursalController extends Controller
      */
     public function destroy($id)
     {
-        return "NO SIRVO: ".$id;
+        //
     }
 }

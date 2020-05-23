@@ -2,10 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\ModelSucursal;
 use Illuminate\Http\Request;
 
-class SucursalController extends Controller
+class CotizacionController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,7 +13,8 @@ class SucursalController extends Controller
      */
     public function index()
     {
-        return "ENTRO INDEX";
+        $pdf = \PDF::loadView('vistas/mostrarEdoCuenta');
+        return $pdf->download('edocuenta.pdf');
     }
 
     /**
@@ -34,17 +34,9 @@ class SucursalController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    {
-        $sucursal = new ModelSucursal;
-        $sucursal->Nombre=$request->NombreInput;
-        $sucursal->Direccion=$request->DireccionInput;
-        $sucursal->CP=$request->CPInput;
-        $sucursal->Ciudad=$request->CiudadInput;
-        $sucursal->Telefono=$request->TelefonoInput;
-        $sucursal->Status = 1;
-        $sucursal->save();
-
-        return view('/vistas/sucursales');
+    {   
+        $pdf = \PDF::loadView('vistas/mostrarCotizacion');
+        return $pdf->download('cotizacion.pdf');
     }
 
     /**
@@ -55,8 +47,7 @@ class SucursalController extends Controller
      */
     public function show($id)
     {
-        $sucursal=ModelSucursal::findOrFail($id);
-        return view ("/vistas/modificarSucursal", compact("sucursal"));
+        //
     }
 
     /**
@@ -67,12 +58,7 @@ class SucursalController extends Controller
      */
     public function edit($id)
     {
-        $sucursal = ModelSucursal::findOrFail($id);
-        $sucursal->Status = 0;
-        
-        $sucursal->save();
-
-        return view("/vistas/sucursales"); 
+        //
     }
 
     /**
@@ -84,16 +70,7 @@ class SucursalController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $sucursal = ModelSucursal::findOrFail($id);
-        $sucursal->Nombre=$request->NombreInput;
-        $sucursal->Direccion=$request->DireccionInput;
-        $sucursal->CP=$request->CPInput;
-        $sucursal->Ciudad=$request->CiudadInput;
-        $sucursal->Telefono=$request->TelefonoInput;
-        $sucursal->save();
-
-        return view("/vistas/sucursales"); 
-
+        //
     }
 
     /**
@@ -104,6 +81,6 @@ class SucursalController extends Controller
      */
     public function destroy($id)
     {
-        return "NO SIRVO: ".$id;
+        //
     }
 }

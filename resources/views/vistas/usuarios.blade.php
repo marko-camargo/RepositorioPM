@@ -15,7 +15,7 @@
   <meta name="description" content="">
   <meta name="author" content="">
 
-  <title>SUCURSALES</title>
+  <title>USUARIOS</title>
 
   <!-- Custom fonts for this template-->
   <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -71,7 +71,7 @@
       $i = 1;
       if($i == 1){
           ?>
-          <li class="nav-item active">
+          <li class="nav-item">
             <a class="nav-link collapsed" href="{{route("sucursal")}}">
               <i class="fas fa-fw fa-cog"></i>
               <span>Sucursales</span>
@@ -82,7 +82,7 @@
       ?>
 
       <!-- Nav Item - Utilities Collapse Menu -->
-      <li class="nav-item">
+      <li class="nav-item active">
         <a class="nav-link" href="{{route("usuarios")}}">
           <i class="fas fa-fw fa-wrench"></i>
           <span>Usuarios</span>
@@ -138,8 +138,8 @@
       <hr class="sidebar-divider">
 
       <?php
-  if($_SESSION['typeUser'] == "Gerente" || $_SESSION['typeUser'] == "Admin"){
-      ?>
+if($_SESSION['typeUser'] == "Gerente" || $_SESSION['typeUser'] == "Admin"){
+?>
       <div class="sidebar-heading">
         Seguridad
       </div>
@@ -184,7 +184,7 @@
           </button>
 
           <!-- Topbar Navbar -->
-          <h1 class="h3 mb-4 text-gray-800">SUCURSALES</h1>
+          <h1 class="h3 mb-4 text-gray-800">USUARIOS DEL SISTEMA</h1>
           <ul class="navbar-nav ml-auto">
 
             <div class="topbar-divider d-none d-sm-block"></div>
@@ -209,18 +209,11 @@
         <div class="container-fluid">
 
           <!-- Page Heading -->
-          {{-- <h1 class="h3 mb-4 text-gray-800">SUCURSALES</h1> --}}
           <br>
           <br>
-
-
-          <!-- SELECT A SUCURSALES  CON MODELO-->
-
-
-          
           <?php
             //$datos = ModelUsuario->all();
-            $datos = ModelSucursal::all(); 
+            $datos = ModelUsuario::all(); 
           ?>
           
           <center>
@@ -228,7 +221,7 @@
               <table>
                 <tr>
                   <th>
-                    <input style="width:15cm" type="text" class="form-control form-control-user" name="BuscarInput" placeholder="Buscar Sucursal">
+                    <input style="width:15cm" type="text" class="form-control form-control-user" name="BuscarInput" placeholder="Buscar Usuario">
                   </th>
                   <th>
                     <input type="submit" class="btn btn-primary btn-user" value="Buscar">
@@ -241,18 +234,23 @@
           <table >
             <tr>
               <th colspan="2">
-                <h1 class="h3 mb-4 text-gray-800">Sucursales</h1>
+                <h1 class="h3 mb-4 text-gray-800">Usuarios</h1>
               </th>
-            <?php
-            if($_SESSION['typeUser'] == "Admin"){
-            ?>
+              {{-- <th></th>
+              <th></th>
+              <th></th>
+              <th></th> --}}
+
+              <?php
+              if($_SESSION['typeUser'] == "Admin"){
+              ?>
               <th>
-                <a href="{{route('nuevaSucursal')}}" class="btn btn-primary btn-user" value="">Nueva Sucursal</a>
+                <a href="{{route('nuevoUsuario')}}" class="btn btn-primary btn-user" value="">Nuevo Usuario</a>
               </th>
+              <?php
+              }
+              ?>
             </tr>
-            <?php
-            }
-            ?>
             <tr>
               <th style="visibility: collapse;width:0px">
                 id
@@ -261,16 +259,19 @@
                 Nombre
               </th>
               <th>
-                Direccion
+                Id Sucursal
               </th>
               <th>
-                Codigo Postal
-              </th>
-              <th>
-                Ciudad
+                Domicilio
               </th>
               <th>
                 Telefono
+              </th>
+              <th>
+                Puesto
+              </th>
+              <th>
+                Nombre de usuario
               </th>
             </tr>
 
@@ -281,7 +282,7 @@
                 <tr>
                   <td style="visibility: collapse;width:0px">
                     <?php
-                    echo $dato->id_sucursal;
+                    echo $dato->id_usuario;
                     ?>
                   </td>
                   <td>
@@ -291,17 +292,12 @@
                   </td>
                   <td>
                     <?php
-                    echo $dato->Direccion;
+                    echo $dato->id_sucursal;
                     ?>
                   </td>
                   <td>
                     <?php
-                    echo $dato->CP;
-                    ?>
-                  </td>
-                  <td>
-                    <?php
-                    echo $dato->Ciudad;
+                    echo $dato->Domicilio;
                     ?>
                   </td>
                   <td>
@@ -309,20 +305,33 @@
                     echo $dato->Telefono;
                     ?>
                   </td>
+                  <td>
+                    <?php
+                    echo $dato->Puesto;
+                    ?>
+                  </td>
+                  <td>
+                    <?php
+                    echo $dato->Username;
+                    ?>
+                  </td>
                   <?php
                   if($_SESSION['typeUser'] == "Gerente" || $_SESSION['typeUser'] == "Admin"){
                   ?>
                   <td>
-                    <form method="GET" action="/sucursalCRUD/{{$dato->id_sucursal}}">
+                    <form method="GET" action="/usuarioCRUD/{{$dato->id_usuario}}">
                     <input  type="submit" class="btn btn-primary btn-user" value="Modificar">
                     </form>
                   </td>
                   <?php
                   }
+                  ?>
+
+                  <?php
                   if($_SESSION['typeUser'] == "Admin"){
                   ?>
                   <td>
-                    <form method="GET" action="/sucursalCRUD/{{$dato->id_sucursal}}/edit">
+                    <form method="GET" action="/usuarioCRUD/{{$dato->id_usuario}}/edit">
                     <input  type="submit" class="btn btn-danger" value="Eliminar">
                     </form>
                   </td>

@@ -15,11 +15,11 @@
   <meta name="description" content="">
   <meta name="author" content="">
 
-  <title>SUCURSALES</title>
+  <title>ESTADO DE CUENTA</title>
 
   <!-- Custom fonts for this template-->
   <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
-  <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+  {{-- <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet"> --}}
 
   <!-- Custom styles for this template-->
   <link href="/PlantillaInicio/css/sb-admin-2.min.css" rel="stylesheet">
@@ -28,6 +28,9 @@
     th{
       width: 200px
     }
+    table{
+      
+    }
   </style>
 
 </head>
@@ -35,7 +38,7 @@
 <body id="page-top">
 
   <!-- Page Wrapper -->
-  <div id="wrapper">
+  {{-- <div id="wrapper">
 
     <!-- Sidebar -->
     <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
@@ -67,19 +70,8 @@
       </div>
 
       <!-- Nav Item - Pages Collapse Menu -->
-      <?php
-      $i = 1;
-      if($i == 1){
-          ?>
-          <li class="nav-item active">
-            <a class="nav-link collapsed" href="{{route("sucursal")}}">
-              <i class="fas fa-fw fa-cog"></i>
-              <span>Sucursales</span>
-            </a>
-          </li>
-          <?php
-      }
-      ?>
+     
+      
 
       <!-- Nav Item - Utilities Collapse Menu -->
       <li class="nav-item">
@@ -128,7 +120,7 @@
       </li>
 
       <!-- Nav Item - Tables -->
-      <li class="nav-item">
+      <li class="nav-item active">
         <a class="nav-link" href="{{route("cotizacion")}}">
           <i class="fas fa-fw fa-table"></i>
           <span>Cotización</span></a>
@@ -137,9 +129,7 @@
       <!-- Divider -->
       <hr class="sidebar-divider">
 
-      <?php
-  if($_SESSION['typeUser'] == "Gerente" || $_SESSION['typeUser'] == "Admin"){
-      ?>
+      <!-- Heading -->
       <div class="sidebar-heading">
         Seguridad
       </div>
@@ -153,10 +143,6 @@
 
       <!-- Divider -->
       <hr class="sidebar-divider">
-      
-  <?php
-  }
-  ?>
       
       <li class="nav-item">
         <center>
@@ -184,7 +170,7 @@
           </button>
 
           <!-- Topbar Navbar -->
-          <h1 class="h3 mb-4 text-gray-800">SUCURSALES</h1>
+          <h1 class="h3 mb-4 text-gray-800">COTIZACIÓN GENERADA</h1>
           <ul class="navbar-nav ml-auto">
 
             <div class="topbar-divider d-none d-sm-block"></div>
@@ -202,154 +188,58 @@
             </li>
           </ul>
 
-        </nav>
+        </nav> --}}
         <!-- End of Topbar -->
 
         <!-- Begin Page Content -->
-        <div class="container-fluid">
+        
+        <!-- OPERACIONES DEL PRESTAMO -->
+        
 
-          <!-- Page Heading -->
-          {{-- <h1 class="h3 mb-4 text-gray-800">SUCURSALES</h1> --}}
-          <br>
-          <br>
-
-
-          <!-- SELECT A SUCURSALES  CON MODELO-->
-
-
-          
-          <?php
-            //$datos = ModelUsuario->all();
-            $datos = ModelSucursal::all(); 
-          ?>
-          
-          <center>
-            <div class="form-group">
-              <table>
-                <tr>
-                  <th>
-                    <input style="width:15cm" type="text" class="form-control form-control-user" name="BuscarInput" placeholder="Buscar Sucursal">
-                  </th>
-                  <th>
-                    <input type="submit" class="btn btn-primary btn-user" value="Buscar">
-                  </th>
-                </tr>
-              </table>
-            {{csrf_field()}}
-          </div>
-          <br><br><br>
-          <table >
+        <div class="container">
+          <div class="table-responsive">
+          <form method="GET" action="/cotizacionCRUD">
+          {{csrf_field()}}
+          <table class="table">
             <tr>
-              <th colspan="2">
-                <h1 class="h3 mb-4 text-gray-800">Sucursales</h1>
-              </th>
-            <?php
-            if($_SESSION['typeUser'] == "Admin"){
-            ?>
-              <th>
-                <a href="{{route('nuevaSucursal')}}" class="btn btn-primary btn-user" value="">Nueva Sucursal</a>
+              <th colspan="4">
+                <h1 class="h3 mb-4 text-gray-800"><i><strong>ESTADO DE CUENTA</strong></i></h1>
               </th>
             </tr>
-            <?php
-            }
-            ?>
-            <tr>
-              <th style="visibility: collapse;width:0px">
-                id
-              </th>
-              <th>
-                Nombre
-              </th>
-              <th>
-                Direccion
-              </th>
-              <th>
-                Codigo Postal
-              </th>
-              <th>
-                Ciudad
-              </th>
-              <th>
-                Telefono
-              </th>
+            <tr><th>Nombre</th><td>{{$_SESSION['edonombre']}}</td></tr>
+            <tr><th>Saldo</th><td>$ {{$_SESSION['edosaldo']}}</td></tr>
+            <tr><th>Abonos</th><td>$ {{$_SESSION['edoabono']}}</td></tr>
+            <tr><th>Intereses</th><td>$ {{$_SESSION['edointereses']}}</td></tr>
+            <tr><th>Recargos</th><td>$ {{$_SESSION['edorecargos']}}</td></tr>
+            <tr><th>Cant. Prestamo</th><td>$ {{$_SESSION['edocantidad']}}</td></tr>
+            <tr><th>Plazo (meses)</th><td>{{$_SESSION['edomeses']}}</td></tr>
+            <tr><th>Fecha Solicitud</th><td>{{$_SESSION['edofecha']}}</td></tr>
+            <tr><th>Comentarios</th><td>{{$_SESSION['edocomentarios']}}</td></tr>
+            <tr><td>
+              <br>
+            <input type="submit" class="btn btn-primary btn-danger" value="Generar PDF">
+            </td>
+              <td><a  href="{{route('principal')}}" class="btn btn-primary ">Principal</a></td>
             </tr>
-
-            <?php
-              foreach($datos as $dato){
-                if($dato->Status == 1){
-                ?>
-                <tr>
-                  <td style="visibility: collapse;width:0px">
-                    <?php
-                    echo $dato->id_sucursal;
-                    ?>
-                  </td>
-                  <td>
-                    <?php
-                    echo $dato->Nombre;
-                    ?>
-                  </td>
-                  <td>
-                    <?php
-                    echo $dato->Direccion;
-                    ?>
-                  </td>
-                  <td>
-                    <?php
-                    echo $dato->CP;
-                    ?>
-                  </td>
-                  <td>
-                    <?php
-                    echo $dato->Ciudad;
-                    ?>
-                  </td>
-                  <td>
-                    <?php
-                    echo $dato->Telefono;
-                    ?>
-                  </td>
-                  <?php
-                  if($_SESSION['typeUser'] == "Gerente" || $_SESSION['typeUser'] == "Admin"){
-                  ?>
-                  <td>
-                    <form method="GET" action="/sucursalCRUD/{{$dato->id_sucursal}}">
-                    <input  type="submit" class="btn btn-primary btn-user" value="Modificar">
-                    </form>
-                  </td>
-                  <?php
-                  }
-                  if($_SESSION['typeUser'] == "Admin"){
-                  ?>
-                  <td>
-                    <form method="GET" action="/sucursalCRUD/{{$dato->id_sucursal}}/edit">
-                    <input  type="submit" class="btn btn-danger" value="Eliminar">
-                    </form>
-                  </td>
-                  <?php
-                  }
-                  ?>
-                </tr>
-                <?php
-              }
-            }
-            ?>
           </table>
+        </form>
         </center>
         </div>
+        </div>
+      
         <!-- /.container-fluid -->
 
       </div>
       <!-- End of Main Content -->
 
       <!-- Footer -->
-      <footer class="sticky-footer bg-white">
+      {{-- <footer class="sticky-footer bg-white">
         <div class="container my-auto">
           <div class="copyright text-center my-auto">
             <span>Copyright &copy; Presta Money 2020</span>
           </div>
         </div>
-      </footer>
+      </footer> --}}
       <!-- End of Footer -->
 
     </div>

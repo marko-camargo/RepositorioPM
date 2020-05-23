@@ -1,6 +1,7 @@
 <?php
   use App\ModelUsuario;
   use App\ModelSucursal;
+  use App\ModelCliente;
   session_start();
 ?>
 
@@ -15,7 +16,7 @@
   <meta name="description" content="">
   <meta name="author" content="">
 
-  <title>SUCURSALES</title>
+  <title>CLIENTES</title>
 
   <!-- Custom fonts for this template-->
   <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -71,7 +72,7 @@
       $i = 1;
       if($i == 1){
           ?>
-          <li class="nav-item active">
+          <li class="nav-item">
             <a class="nav-link collapsed" href="{{route("sucursal")}}">
               <i class="fas fa-fw fa-cog"></i>
               <span>Sucursales</span>
@@ -98,7 +99,7 @@
       </div>
 
       <!-- Nav Item - Pages Collapse Menu -->
-      <li class="nav-item">
+      <li class="nav-item active">
         <a class="nav-link" href="{{route("clientes")}}">
           <i class="fas fa-fw fa-folder"></i>
           <span>Clientes</span>
@@ -138,25 +139,25 @@
       <hr class="sidebar-divider">
 
       <?php
-  if($_SESSION['typeUser'] == "Gerente" || $_SESSION['typeUser'] == "Admin"){
+      if($_SESSION['typeUser'] == "Gerente" || $_SESSION['typeUser'] == "Admin"){
       ?>
-      <div class="sidebar-heading">
-        Seguridad
-      </div>
-
-      <!-- Nav Item - Tables -->
-      <li class="nav-item">
-        <a class="nav-link" href="{{route("respaldos")}}">
-          <i class="fas fa-fw fa-table"></i>
-          <span>Respaldos</span></a>
-      </li>
-
-      <!-- Divider -->
-      <hr class="sidebar-divider">
+            <div class="sidebar-heading">
+              Seguridad
+            </div>
       
-  <?php
-  }
-  ?>
+            <!-- Nav Item - Tables -->
+            <li class="nav-item">
+              <a class="nav-link" href="{{route("respaldos")}}">
+                <i class="fas fa-fw fa-table"></i>
+                <span>Respaldos</span></a>
+            </li>
+      
+            <!-- Divider -->
+            <hr class="sidebar-divider">
+            
+        <?php
+        }
+        ?>
       
       <li class="nav-item">
         <center>
@@ -184,7 +185,7 @@
           </button>
 
           <!-- Topbar Navbar -->
-          <h1 class="h3 mb-4 text-gray-800">SUCURSALES</h1>
+          <h1 class="h3 mb-4 text-gray-800">CLIENTES</h1>
           <ul class="navbar-nav ml-auto">
 
             <div class="topbar-divider d-none d-sm-block"></div>
@@ -209,18 +210,11 @@
         <div class="container-fluid">
 
           <!-- Page Heading -->
-          {{-- <h1 class="h3 mb-4 text-gray-800">SUCURSALES</h1> --}}
           <br>
           <br>
-
-
-          <!-- SELECT A SUCURSALES  CON MODELO-->
-
-
-          
           <?php
-            //$datos = ModelUsuario->all();
-            $datos = ModelSucursal::all(); 
+            
+            $datos = ModelCliente::all(); 
           ?>
           
           <center>
@@ -228,7 +222,7 @@
               <table>
                 <tr>
                   <th>
-                    <input style="width:15cm" type="text" class="form-control form-control-user" name="BuscarInput" placeholder="Buscar Sucursal">
+                    <input style="width:15cm" type="text" class="form-control form-control-user" name="BuscarInput" placeholder="Buscar Cliente">
                   </th>
                   <th>
                     <input type="submit" class="btn btn-primary btn-user" value="Buscar">
@@ -241,18 +235,22 @@
           <table >
             <tr>
               <th colspan="2">
-                <h1 class="h3 mb-4 text-gray-800">Sucursales</h1>
+                <h1 class="h3 mb-4 text-gray-800">Clientes</h1>
               </th>
-            <?php
-            if($_SESSION['typeUser'] == "Admin"){
-            ?>
+              {{-- <th></th>
+              <th></th>
+              <th></th>
+              <th></th> --}}
+              <?php
+              if($_SESSION['typeUser'] == "Admin"){
+              ?>
               <th>
-                <a href="{{route('nuevaSucursal')}}" class="btn btn-primary btn-user" value="">Nueva Sucursal</a>
+                <a href="{{route('nuevoCliente')}}" class="btn btn-primary btn-user">Nuevo Cliente</a>
               </th>
+              <?php
+              }
+              ?>
             </tr>
-            <?php
-            }
-            ?>
             <tr>
               <th style="visibility: collapse;width:0px">
                 id
@@ -261,13 +259,13 @@
                 Nombre
               </th>
               <th>
-                Direccion
+                Domicilio
               </th>
               <th>
-                Codigo Postal
+                Fecha Nacimiento
               </th>
               <th>
-                Ciudad
+                Email
               </th>
               <th>
                 Telefono
@@ -281,7 +279,7 @@
                 <tr>
                   <td style="visibility: collapse;width:0px">
                     <?php
-                    echo $dato->id_sucursal;
+                    echo $dato->id_cliente;
                     ?>
                   </td>
                   <td>
@@ -291,17 +289,17 @@
                   </td>
                   <td>
                     <?php
-                    echo $dato->Direccion;
+                    echo $dato->Domicilio;
                     ?>
                   </td>
                   <td>
                     <?php
-                    echo $dato->CP;
+                    echo $dato->FechaNac;
                     ?>
                   </td>
                   <td>
                     <?php
-                    echo $dato->Ciudad;
+                    echo $dato->Email;
                     ?>
                   </td>
                   <td>
@@ -313,16 +311,20 @@
                   if($_SESSION['typeUser'] == "Gerente" || $_SESSION['typeUser'] == "Admin"){
                   ?>
                   <td>
-                    <form method="GET" action="/sucursalCRUD/{{$dato->id_sucursal}}">
+                    <form method="GET" action="/clienteCRUD/{{$dato->id_cliente}}">
                     <input  type="submit" class="btn btn-primary btn-user" value="Modificar">
                     </form>
                   </td>
+
                   <?php
                   }
+                  ?>
+                  
+                  <?php
                   if($_SESSION['typeUser'] == "Admin"){
                   ?>
                   <td>
-                    <form method="GET" action="/sucursalCRUD/{{$dato->id_sucursal}}/edit">
+                    <form method="GET" action="/clienteCRUD/{{$dato->id_cliente}}/edit">
                     <input  type="submit" class="btn btn-danger" value="Eliminar">
                     </form>
                   </td>

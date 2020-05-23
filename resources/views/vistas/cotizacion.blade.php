@@ -15,7 +15,7 @@
   <meta name="description" content="">
   <meta name="author" content="">
 
-  <title>SUCURSALES</title>
+  <title>COTIZACIÓN</title>
 
   <!-- Custom fonts for this template-->
   <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -71,7 +71,7 @@
       $i = 1;
       if($i == 1){
           ?>
-          <li class="nav-item active">
+          <li class="nav-item">
             <a class="nav-link collapsed" href="{{route("sucursal")}}">
               <i class="fas fa-fw fa-cog"></i>
               <span>Sucursales</span>
@@ -128,7 +128,7 @@
       </li>
 
       <!-- Nav Item - Tables -->
-      <li class="nav-item">
+      <li class="nav-item active">
         <a class="nav-link" href="{{route("cotizacion")}}">
           <i class="fas fa-fw fa-table"></i>
           <span>Cotización</span></a>
@@ -138,25 +138,25 @@
       <hr class="sidebar-divider">
 
       <?php
-  if($_SESSION['typeUser'] == "Gerente" || $_SESSION['typeUser'] == "Admin"){
+      if($_SESSION['typeUser'] == "Gerente" || $_SESSION['typeUser'] == "Admin"){
       ?>
-      <div class="sidebar-heading">
-        Seguridad
-      </div>
-
-      <!-- Nav Item - Tables -->
-      <li class="nav-item">
-        <a class="nav-link" href="{{route("respaldos")}}">
-          <i class="fas fa-fw fa-table"></i>
-          <span>Respaldos</span></a>
-      </li>
-
-      <!-- Divider -->
-      <hr class="sidebar-divider">
+            <div class="sidebar-heading">
+              Seguridad
+            </div>
       
-  <?php
-  }
-  ?>
+            <!-- Nav Item - Tables -->
+            <li class="nav-item">
+              <a class="nav-link" href="{{route("respaldos")}}">
+                <i class="fas fa-fw fa-table"></i>
+                <span>Respaldos</span></a>
+            </li>
+      
+            <!-- Divider -->
+            <hr class="sidebar-divider">
+            
+        <?php
+        }
+        ?>
       
       <li class="nav-item">
         <center>
@@ -184,7 +184,7 @@
           </button>
 
           <!-- Topbar Navbar -->
-          <h1 class="h3 mb-4 text-gray-800">SUCURSALES</h1>
+          <h1 class="h3 mb-4 text-gray-800">COTIZACIONES</h1>
           <ul class="navbar-nav ml-auto">
 
             <div class="topbar-divider d-none d-sm-block"></div>
@@ -209,132 +209,85 @@
         <div class="container-fluid">
 
           <!-- Page Heading -->
-          {{-- <h1 class="h3 mb-4 text-gray-800">SUCURSALES</h1> --}}
           <br>
           <br>
-
-
-          <!-- SELECT A SUCURSALES  CON MODELO-->
-
-
-          
           <?php
             //$datos = ModelUsuario->all();
-            $datos = ModelSucursal::all(); 
+            $datos = ModelUsuario::all(); 
           ?>
           
           <center>
             <div class="form-group">
               <table>
-                <tr>
-                  <th>
-                    <input style="width:15cm" type="text" class="form-control form-control-user" name="BuscarInput" placeholder="Buscar Sucursal">
-                  </th>
-                  <th>
-                    <input type="submit" class="btn btn-primary btn-user" value="Buscar">
-                  </th>
-                </tr>
+               
               </table>
             {{csrf_field()}}
           </div>
           <br><br><br>
-          <table >
-            <tr>
-              <th colspan="2">
-                <h1 class="h3 mb-4 text-gray-800">Sucursales</h1>
-              </th>
-            <?php
-            if($_SESSION['typeUser'] == "Admin"){
-            ?>
-              <th>
-                <a href="{{route('nuevaSucursal')}}" class="btn btn-primary btn-user" value="">Nueva Sucursal</a>
-              </th>
-            </tr>
-            <?php
-            }
-            ?>
-            <tr>
-              <th style="visibility: collapse;width:0px">
-                id
-              </th>
-              <th>
-                Nombre
-              </th>
-              <th>
-                Direccion
-              </th>
-              <th>
-                Codigo Postal
-              </th>
-              <th>
-                Ciudad
-              </th>
-              <th>
-                Telefono
-              </th>
-            </tr>
+          
+          <div class="container-fluid">
+            <div class="container">
+              <!-- Outer Row -->
+              <div class="row justify-content-center">
+                <div class="col-xl-10 col-lg-12 col-md-9">
+                  <div class="card o-hidden border-0 shadow-lg my-5">
+                    <div class="card-body p-0">
+                      <!-- Nested Row within Card Body -->
+                      <div class="row">
+                        <div class="col-lg-6 d-none d-lg-block bg-registroSucursal-image"></div>
+                        <div class="col-lg-6">
+                          <div class="p-5">
+                            <div class="text-center">
+                              <h1 class="h4 text-gray-900 mb-4">COTIZACIÓN</h1>
+                            </div>
+                            <form class="user" method="GET" action="/cuentaCRUD">
+                          
+                              <div class="form-group">
+                                <input type="text" class="form-control form-control-user" name="NombreInput" placeholder="Nombre...">
+                                {{csrf_field()}}
+                              </div>
+  
+                              <div class="form-group">
+                                <input type="text" pattern="[0-9]+" class="form-control form-control-user" name="CantidadrequeridaInput" placeholder="Cantidad Requerida...">
+                                {{csrf_field()}}
+                              </div>
+  
+                              <div class="form-group">
+                                <input type="text" pattern="[0-9]+" class="form-control form-control-user" name="PlazomesesInput" placeholder="Plazo (meses)...">
+                                {{csrf_field()}}
+                              </div>
+  
+                              <input type="submit" class="btn btn-primary btn-user btn-block" value="Generar">
+                              <hr>
+                             </form>
+                            <hr>
+                            
+                  
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+          
+                </div>
+          
+              </div>
+          
+            </div>
+  
+          </div>
 
-            <?php
-              foreach($datos as $dato){
-                if($dato->Status == 1){
-                ?>
-                <tr>
-                  <td style="visibility: collapse;width:0px">
-                    <?php
-                    echo $dato->id_sucursal;
-                    ?>
-                  </td>
-                  <td>
-                    <?php
-                    echo $dato->Nombre;
-                    ?>
-                  </td>
-                  <td>
-                    <?php
-                    echo $dato->Direccion;
-                    ?>
-                  </td>
-                  <td>
-                    <?php
-                    echo $dato->CP;
-                    ?>
-                  </td>
-                  <td>
-                    <?php
-                    echo $dato->Ciudad;
-                    ?>
-                  </td>
-                  <td>
-                    <?php
-                    echo $dato->Telefono;
-                    ?>
-                  </td>
-                  <?php
-                  if($_SESSION['typeUser'] == "Gerente" || $_SESSION['typeUser'] == "Admin"){
-                  ?>
-                  <td>
-                    <form method="GET" action="/sucursalCRUD/{{$dato->id_sucursal}}">
-                    <input  type="submit" class="btn btn-primary btn-user" value="Modificar">
-                    </form>
-                  </td>
-                  <?php
-                  }
-                  if($_SESSION['typeUser'] == "Admin"){
-                  ?>
-                  <td>
-                    <form method="GET" action="/sucursalCRUD/{{$dato->id_sucursal}}/edit">
-                    <input  type="submit" class="btn btn-danger" value="Eliminar">
-                    </form>
-                  </td>
-                  <?php
-                  }
-                  ?>
-                </tr>
-                <?php
-              }
-            }
-            ?>
-          </table>
+
+
+
+
+
+
+
+
+
+
+
         </center>
         </div>
         <!-- /.container-fluid -->
