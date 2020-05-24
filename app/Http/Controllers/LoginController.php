@@ -49,6 +49,7 @@ class LoginController extends Controller
             $_SESSION['typeUser']=$typeUser;
             return redirect('principal');
         }else{
+            
             return view("/vistas/login");
         }
         

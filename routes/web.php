@@ -52,12 +52,13 @@ Route::get('/abonos','FuncionesController@irAbonos')->name('abonos');
 Route::get('/crearabono2','FuncionesController@irCrearAbono2')->name('crearabono2');
 Route::get('/mostrarAbonos','FuncionesController@irMostrarAbonos')->name('mostrarAbonos');
 
-
-
-
-
-
 Route::get('/respaldos','FuncionesController@irRespaldos')->name('respaldos');
+
+
+
+
+
+
 Route::get('/cerrarsesion','FuncionesController@irCerrarSesion')->name('cerrarsesion');
 
 

@@ -79,12 +79,12 @@ class FuncionesController extends Controller
         return view('/vistas/mostrarAbonos');
     }
 
-
-
-
     function irRespaldos(){
-        return view('/vistas/respaldos');
+        return view('/vistas/respaldo');
     }
+
+
+
 
 
     function irCerrarSesion(){
