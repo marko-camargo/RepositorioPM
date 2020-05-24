@@ -7,6 +7,10 @@ use App\ModelUsuario;
 
 class FuncionesController extends Controller
 {
+    function irPrincipal(){
+        return view('/vistas/principal');
+    }
+    
     function irSucursales(){
         return view('/vistas/sucursales');
     }
@@ -63,24 +67,24 @@ class FuncionesController extends Controller
         return view('/vistas/mostrarEdocuenta');
     }
 
-
-
     function irAbonos(){
         return view('/vistas/abonos');
     }
 
-    
+    function irCrearAbono2(){
+        return view('/vistas/crearAbono2');
+    }
+
+    function irMostrarAbonos(){
+        return view('/vistas/mostrarAbonos');
+    }
+
+
+
 
     function irRespaldos(){
         return view('/vistas/respaldos');
     }
-
-
-
-    function irPrincipal(){
-        return view('/vistas/principal');
-    }
-
 
 
     function irCerrarSesion(){

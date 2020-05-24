@@ -1,7 +1,6 @@
 <?php
   use App\ModelUsuario;
   use App\ModelSucursal;
-  use App\ModelCuenta;
   session_start();
 ?>
 
@@ -16,7 +15,7 @@
   <meta name="description" content="">
   <meta name="author" content="">
 
-  <title>CUENTAS</title>
+  <title>ABONOS</title>
 
   <!-- Custom fonts for this template-->
   <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -27,7 +26,7 @@
 
   <style>
     th{
-      width: 150px
+      width: 200px
     }
   </style>
 
@@ -69,8 +68,7 @@
 
       <!-- Nav Item - Pages Collapse Menu -->
       <?php
-      $i = 1;
-      if($i == 1){
+  if($_SESSION['typeUser'] == "Gerente" || $_SESSION['typeUser'] == "Asesor" || $_SESSION['typeUser'] == "Admin"){
           ?>
           <li class="nav-item">
             <a class="nav-link collapsed" href="{{route("sucursal")}}">
@@ -78,9 +76,6 @@
               <span>Sucursales</span>
             </a>
           </li>
-          <?php
-      }
-      ?>
 
       <!-- Nav Item - Utilities Collapse Menu -->
       <li class="nav-item">
@@ -107,7 +102,7 @@
       </li>
 
       <!-- Nav Item - Charts -->
-      <li class="nav-item active">
+      <li class="nav-item">
         <a class="nav-link" href="{{route("cuentas")}}">
           <i class="fas fa-fw fa-chart-area"></i>
           <span>Cuentas</span></a>
@@ -120,25 +115,35 @@
       <div class="sidebar-heading">
         Financiero
       </div>
-
+<?php
+  }
+?>
       <!-- Nav Item - Tables -->
-      <li class="nav-item">
+      <li class="nav-item active">
         <a class="nav-link" href="{{route("abonos")}}">
           <i class="fas fa-fw fa-table"></i>
           <span>Abonos</span></a>
       </li>
 
+  <?php
+  if($_SESSION['typeUser'] == "Gerente" || $_SESSION['typeUser'] == "Asesor" || $_SESSION['typeUser'] == "Admin"){
+  ?>
       <!-- Nav Item - Tables -->
       <li class="nav-item">
         <a class="nav-link" href="{{route("cotizacion")}}">
           <i class="fas fa-fw fa-table"></i>
           <span>Cotización</span></a>
       </li>
+  <?php
+  }
+  ?>
 
       <!-- Divider -->
       <hr class="sidebar-divider">
 
-      <?php
+      <!-- Heading -->
+
+<?php
 if($_SESSION['typeUser'] == "Gerente" || $_SESSION['typeUser'] == "Admin"){
 ?>
       <div class="sidebar-heading">
@@ -158,6 +163,7 @@ if($_SESSION['typeUser'] == "Gerente" || $_SESSION['typeUser'] == "Admin"){
   <?php
   }
   ?>
+      
       <li class="nav-item">
         <center>
           <button href="{{route("cerrarsesion")}}" class="btn btn-danger">Cerrar Sesión</button>
@@ -184,7 +190,7 @@ if($_SESSION['typeUser'] == "Gerente" || $_SESSION['typeUser'] == "Admin"){
           </button>
 
           <!-- Topbar Navbar -->
-          <h1 class="h3 mb-4 text-gray-800">CUENTAS DE CLIENTES</h1>
+          <h1 class="h3 mb-4 text-gray-800">ABONOS</h1>
           <ul class="navbar-nav ml-auto">
 
             <div class="topbar-divider d-none d-sm-block"></div>
@@ -213,106 +219,69 @@ if($_SESSION['typeUser'] == "Gerente" || $_SESSION['typeUser'] == "Admin"){
           <br>
           <?php
             //$datos = ModelUsuario->all();
-            $datos = ModelCuenta::all(); 
+            $datos = ModelUsuario::all(); 
           ?>
           
           <center>
             <div class="form-group">
               <table>
-                <tr>
-                  <th>
-                    <input style="width:15cm" type="text" class="form-control form-control-user" name="BuscarInput" placeholder="Buscar Cuenta">
-                  </th>
-                  <th>
-                    <input type="submit" class="btn btn-primary btn-user" value="Buscar">
-                  </th>
-                </tr>
+               
               </table>
             {{csrf_field()}}
           </div>
           <br><br><br>
-          <table >
-            <tr>
-              <th colspan="2">
-                <h1 class="h3 mb-4 text-gray-800">Cuentas</h1>
-              </th>
-            </tr>
-            <tr>
-              <th style="visibility: collapse;width:0px">
-                id
-              </th>
-              <th>
-                Nombre Cliente
-              </th>
-              <th>
-                Saldo
-              </th>
-              <th>
-                Abonos
-              </th>
-              <th>
-                Cant. Préstamo
-              </th>
-              <th>
-                Plazo (meses)
-              </th>
-              <th>
-                Fecha de Solicitud
-              </th>
-            </tr>
-
-            <?php
-              foreach($datos as $dato){
-                if($dato->Status == 1){
-                ?>
-                <tr>
-                  <td style="visibility: collapse;width:0px">
-                    <?php
-                    echo $dato->id_cuenta;
-                    ?>
-                  </td>
-                  <td>
-                    <?php
-                    echo $dato->Nombre_cliente;
-                    ?>
-                  </td>
-                  <td>
-                    <?php
-                    echo "$".$dato->Saldo;
-                    ?>
-                  </td>
-                  <td>
-                    <?php
-                    echo "$".$dato->Abonos;
-                    ?>
-                  </td>
-                  <td>
-                    <?php
-                    echo "$".$dato->CantPrestamo;
-                    ?>
-                  </td>
-                  <td>
-                    <?php
-                    echo $dato->Plazo_meses;
-                    ?>
-                  </td>
-                  <td>
-                    <?php
-                    echo $dato->FechaSolicitud;
-                    ?>
-                  </td>
+          
+          <div class="container-fluid">
+            <div class="container">
+              <!-- Outer Row -->
+              <div class="row justify-content-center">
+                <div class="col-xl-10 col-lg-12 col-md-9">
+                  <div class="card o-hidden border-0 shadow-lg my-5">
+                    <div class="card-body p-0">
+                      <!-- Nested Row within Card Body -->
+                      <div class="row">
+                        <div class="col-lg-6 d-none d-lg-block bg-registroSucursal-image"></div>
+                        <div class="col-lg-6">
+                          <div class="p-5">
+                            <div class="text-center">
+                              <h1 class="h4 text-gray-900 mb-4">HISTORIAL DE ABONOS</h1>
+                            </div>
+                            <form class="user" method="GET" action="/abonosCRUD">
+                              {{csrf_field()}}
+                              <div class="form-group">
+                                <input type="text" class="form-control form-control-user" name="NombreInput" placeholder="Nombre del cliente...">
+                              </div>
+                              <input type="submit" class="btn btn-primary btn-user btn-block" value="OK">
+                              <hr>
+                             </form>
+                            <hr>
+                            
                   
-                  <td>
-                    <form method="GET" action="/cuentaCRUD/{{$dato->id_cuenta}}">
-                    <input  type="submit" class="btn btn-primary btn-user" value="Visualizar">
-                    </form>
-                  </td>
-                </tr>
-                <?php
-              }
-            }
-            ?>
-          </table>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+          
+                </div>
+          
+              </div>
+          
+            </div>
+  
+          </div>
+
+
+
+
+
+
+
+
+
+
+
+
         </center>
         </div>
         <!-- /.container-fluid -->

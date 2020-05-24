@@ -1,7 +1,8 @@
 <?php
   use App\ModelUsuario;
   use App\ModelSucursal;
-  use App\ModelCuenta;
+  use App\ModelCliente;
+  use App\ModelAbono;
   session_start();
 ?>
 
@@ -16,7 +17,7 @@
   <meta name="description" content="">
   <meta name="author" content="">
 
-  <title>CUENTAS</title>
+  <title>HISTORIAL ABONOS</title>
 
   <!-- Custom fonts for this template-->
   <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -27,7 +28,7 @@
 
   <style>
     th{
-      width: 150px
+      width: 200px
     }
   </style>
 
@@ -69,8 +70,7 @@
 
       <!-- Nav Item - Pages Collapse Menu -->
       <?php
-      $i = 1;
-      if($i == 1){
+  if($_SESSION['typeUser'] == "Gerente" || $_SESSION['typeUser'] == "Asesor" || $_SESSION['typeUser'] == "Admin"){
           ?>
           <li class="nav-item">
             <a class="nav-link collapsed" href="{{route("sucursal")}}">
@@ -78,9 +78,6 @@
               <span>Sucursales</span>
             </a>
           </li>
-          <?php
-      }
-      ?>
 
       <!-- Nav Item - Utilities Collapse Menu -->
       <li class="nav-item">
@@ -107,7 +104,7 @@
       </li>
 
       <!-- Nav Item - Charts -->
-      <li class="nav-item active">
+      <li class="nav-item">
         <a class="nav-link" href="{{route("cuentas")}}">
           <i class="fas fa-fw fa-chart-area"></i>
           <span>Cuentas</span></a>
@@ -120,25 +117,35 @@
       <div class="sidebar-heading">
         Financiero
       </div>
-
+<?php
+  }
+?>
       <!-- Nav Item - Tables -->
-      <li class="nav-item">
+      <li class="nav-item active">
         <a class="nav-link" href="{{route("abonos")}}">
           <i class="fas fa-fw fa-table"></i>
           <span>Abonos</span></a>
       </li>
 
+  <?php
+  if($_SESSION['typeUser'] == "Gerente" || $_SESSION['typeUser'] == "Asesor" || $_SESSION['typeUser'] == "Admin"){
+  ?>
       <!-- Nav Item - Tables -->
       <li class="nav-item">
         <a class="nav-link" href="{{route("cotizacion")}}">
           <i class="fas fa-fw fa-table"></i>
           <span>Cotización</span></a>
       </li>
+  <?php
+  }
+  ?>
 
       <!-- Divider -->
       <hr class="sidebar-divider">
 
-      <?php
+      <!-- Heading -->
+
+<?php
 if($_SESSION['typeUser'] == "Gerente" || $_SESSION['typeUser'] == "Admin"){
 ?>
       <div class="sidebar-heading">
@@ -158,6 +165,7 @@ if($_SESSION['typeUser'] == "Gerente" || $_SESSION['typeUser'] == "Admin"){
   <?php
   }
   ?>
+      
       <li class="nav-item">
         <center>
           <button href="{{route("cerrarsesion")}}" class="btn btn-danger">Cerrar Sesión</button>
@@ -184,7 +192,7 @@ if($_SESSION['typeUser'] == "Gerente" || $_SESSION['typeUser'] == "Admin"){
           </button>
 
           <!-- Topbar Navbar -->
-          <h1 class="h3 mb-4 text-gray-800">CUENTAS DE CLIENTES</h1>
+          <h1 class="h3 mb-4 text-gray-800">HISTORIAL</h1>
           <ul class="navbar-nav ml-auto">
 
             <div class="topbar-divider d-none d-sm-block"></div>
@@ -212,8 +220,11 @@ if($_SESSION['typeUser'] == "Gerente" || $_SESSION['typeUser'] == "Admin"){
           <br>
           <br>
           <?php
-            //$datos = ModelUsuario->all();
-            $datos = ModelCuenta::all(); 
+            
+            //$datos = ModelAbono::all(); 
+          $nombre_cliente = $_SESSION['nombre_cliente'];
+        $datos = new ModelAbono;
+        $datos = ModelAbono::where("Nombre_Cliente","$nombre_cliente")->get();
           ?>
           
           <center>
@@ -221,7 +232,7 @@ if($_SESSION['typeUser'] == "Gerente" || $_SESSION['typeUser'] == "Admin"){
               <table>
                 <tr>
                   <th>
-                    <input style="width:15cm" type="text" class="form-control form-control-user" name="BuscarInput" placeholder="Buscar Cuenta">
+                    <input style="width:15cm" type="text" class="form-control form-control-user" name="BuscarInput" placeholder="Buscar Cliente">
                   </th>
                   <th>
                     <input type="submit" class="btn btn-primary btn-user" value="Buscar">
@@ -234,82 +245,64 @@ if($_SESSION['typeUser'] == "Gerente" || $_SESSION['typeUser'] == "Admin"){
           <table >
             <tr>
               <th colspan="2">
-                <h1 class="h3 mb-4 text-gray-800">Cuentas</h1>
+                <h1 class="h3 mb-4 text-gray-800">ABONOS REALIZADOS</h1>
               </th>
+              {{-- <th></th>
+              <th></th>
+              <th></th>
+              <th></th> --}}
+              <?php
+              
+              ?>
+              <th>
+                <form method="GET" action="abonosCRUD/create">
+                  
+                  <input type="hidden" name="NombreclienteInput" value="{{$nombre_cliente}}">
+                <input type="submit" class="btn btn-primary btn-user-small" value="Nuevo Abono">
+              </form>
+              </th>
+              
             </tr>
             <tr>
-              <th style="visibility: collapse;width:0px">
-                id
+              <th>
+                Nombre del cliente
               </th>
               <th>
-                Nombre Cliente
+                Cantidad del abono
               </th>
               <th>
-                Saldo
-              </th>
-              <th>
-                Abonos
-              </th>
-              <th>
-                Cant. Préstamo
-              </th>
-              <th>
-                Plazo (meses)
-              </th>
-              <th>
-                Fecha de Solicitud
+                Fecha del pago
               </th>
             </tr>
 
             <?php
               foreach($datos as $dato){
-                if($dato->Status == 1){
                 ?>
                 <tr>
-                  <td style="visibility: collapse;width:0px">
+                  <td>
                     <?php
-                    echo $dato->id_cuenta;
+                    echo $dato->Nombre_Cliente;
                     ?>
                   </td>
                   <td>
                     <?php
-                    echo $dato->Nombre_cliente;
+                    echo "$". $dato->Cant_Abono;
                     ?>
                   </td>
                   <td>
                     <?php
-                    echo "$".$dato->Saldo;
+                    echo $dato->Fecha_Abono;
                     ?>
                   </td>
-                  <td>
-                    <?php
-                    echo "$".$dato->Abonos;
-                    ?>
-                  </td>
-                  <td>
-                    <?php
-                    echo "$".$dato->CantPrestamo;
-                    ?>
-                  </td>
-                  <td>
-                    <?php
-                    echo $dato->Plazo_meses;
-                    ?>
-                  </td>
-                  <td>
-                    <?php
-                    echo $dato->FechaSolicitud;
-                    ?>
-                  </td>
-                  
-                  <td>
-                    <form method="GET" action="/cuentaCRUD/{{$dato->id_cuenta}}">
-                    <input  type="submit" class="btn btn-primary btn-user" value="Visualizar">
-                    </form>
-                  </td>
+                  <?php
+                  if($_SESSION['typeUser'] == "Gerente" || $_SESSION['typeUser'] == "Admin"){
+                  ?>
+                  <?php
+                  }
+                  ?>
                 </tr>
                 <?php
-              }
+              
             }
             ?>
           </table>

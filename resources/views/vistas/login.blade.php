@@ -47,7 +47,7 @@
                     </div>
                     <div class="form-group">
                       <input type="password" class="form-control form-control-user" id="contrasena" name="ContraInput" placeholder="Contraseña">
-                      
+                      {{csrf_field()}}
                     </div>
                     <div class="form-group">
                       <div class="custom-control custom-checkbox small">
